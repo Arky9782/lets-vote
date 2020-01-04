@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -32,7 +33,7 @@ class Election
     private $hash;
 
     /**
-     * @ORM\OneToMany(targetEntity="Choice", mappedBy="election")
+     * @ORM\OneToMany(targetEntity="Choice", mappedBy="election", cascade={"PERSIST"})
      */
     private $choices;
 
@@ -71,9 +72,9 @@ class Election
     }
 
     /**
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getChoices(): ArrayCollection
+    public function getChoices(): PersistentCollection
     {
         return $this->choices;
     }
@@ -90,10 +91,9 @@ class Election
     public function vote(Choice $choice)
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('id', $choice->getId()))
-            ->getFirstResult();
+            ->where(Criteria::expr()->eq('id', $choice->getId()));
 
-        $choiceToVoteFor = $this->choices->matching($criteria);
+        $choiceToVoteFor = $this->choices->matching($criteria)->first();
 
         $currentAmountOfVotes = $choiceToVoteFor->getVotes();
         $votesToAdd = $choice->getVotes();

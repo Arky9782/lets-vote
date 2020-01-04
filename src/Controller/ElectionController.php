@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ElectionController extends AbstractController
 {
     /**
-     * @Route("api/electrion/{hash}", name="get-election", methods={"GET"})
+     * @Route("api/election/{hash}", name="get-election", methods={"GET"})
      */
     public function getElection($hash, ElectionRepository $electionRepository)
     {
@@ -42,7 +42,14 @@ class ElectionController extends AbstractController
         EntityManagerInterface $em
     )
     {
-        $election = $serializer->deserialize($request->getContent(), Election::class, 'json');
+        $data = $serializer->decode($request->getContent(),  'json');
+
+        $election = $serializer->denormalize($data, Election::class);
+
+        foreach ($data['choices'] as $choice) {
+            $choice = $serializer->denormalize($choice, Choice::class, );
+            $election->addChoice($choice);
+        }
 
         $errors = $validator->validate($election);
 
@@ -64,7 +71,7 @@ class ElectionController extends AbstractController
 
         return $this->json(
             [
-                'url' => $this->generateUrl('get-election', ['hash' => $hash])
+                'hash' => $hash
             ],
             201
         );
@@ -80,7 +87,7 @@ class ElectionController extends AbstractController
         EntityManagerInterface $entityManager
     )
     {
-        $choicesArray = $serializer->normalize($request->getContent(), 'json');
+        $choicesArray = $serializer->decode($request->getContent(), 'json');
 
         foreach ($choicesArray as $choice) {
             $choice = $serializer->denormalize($choice, Choice::class);
