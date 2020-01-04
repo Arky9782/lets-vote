@@ -58,13 +58,23 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammletsvote/ "Ta
 ## :construction: Install
 
 ```sh
-echo "[TODO] Describe how to install application"
+composer install
+
+yarn install
+
+cp .env .env.local
+
+configure your database config in .env.local
+
+php bin/console doctrine:schema:update --force
 ```
 
 ## :rocket: Usage
 
 ```sh
-echo "[TODO] Describe how to use application"
+symfony server:start
+
+Access the app page via browser (http://127.0.0.1:8000)
 ```
 
 ## :white_check_mark: Run tests
