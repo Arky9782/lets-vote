@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  phpfpm:
+    build:
+      './docker/php-fpm'
+    depends_on:
+      - postgres
+    networks:
+      - app
+    environment:
+      DATABASE_URL: ${DATABASE}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}/${DATABASE_NAME}
+    volumes:
+      - .:/app
+
+  nginx:
+    image: nginx
+    depends_on:
+      - phpfpm
+    networks:
+      - app
+    ports:
+    - '8080:80'
+    volumes:
+      - ./docker/nginx/app.conf:/etc/nginx/conf.d/app.conf
+      - .:/app
+    command: [nginx-debug, '-g', 'daemon off;']
+
+  postgres:
+    image: postgres
+    restart: always
+    networks:
+      - app
+    ports:
+    - '5439:5432'
+    environment:
+      POSTGRES_PASSWORD: 123
+
+networks:
+  app:
+    driver: bridge

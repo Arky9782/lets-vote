@@ -17,9 +17,11 @@ before_script:
 
 script:
   # Build project
-  - echo "[TODO] Test that your project builds properly"
+  - cp env.dist .env
+  - docker-compose up -d
+  - docker-compose exec phpfpm /app/bin/console doctrine:schema:create
   # Execute project Unit Tests
-  - echo "[TODO] Test that your project Unit Tests execute properly"
+  - docker-compose exec phpfpm /app/bin/phpunit -c /app/phpunit.xml.dist
   # Run project
   - echo "[TODO] Test that your project runs properly"
 

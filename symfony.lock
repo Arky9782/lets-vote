@@ -91,7 +91,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -129,6 +129,9 @@
     "symfony/asset": {
         "version": "v5.0.2"
     },
+    "symfony/browser-kit": {
+        "version": "v5.0.2"
+    },
     "symfony/cache": {
         "version": "v5.0.2"
     },
@@ -155,6 +158,9 @@
         "version": "v5.0.2"
     },
     "symfony/doctrine-bridge": {
+        "version": "v5.0.2"
+    },
+    "symfony/dom-crawler": {
         "version": "v5.0.2"
     },
     "symfony/dotenv": {
@@ -248,6 +254,22 @@
     "symfony/orm-pack": {
         "version": "v1.0.7"
     },
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "170be6250b77b421f02e986e2853df86c7bd6516"
+        },
+        "files": [
+            "./.env.test",
+            "./bin/phpunit",
+            "./config/bootstrap.php",
+            "./phpunit.xml.dist",
+            "./tests/.gitignore"
+        ]
+    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.13.1"
     },
@@ -256,6 +278,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/process": {
+        "version": "v5.0.2"
     },
     "symfony/property-access": {
         "version": "v5.0.2"

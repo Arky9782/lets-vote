@@ -60,21 +60,24 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammletsvote/ "Ta
 ```sh
 composer install
 
-yarn install
+yarn build
 
-cp .env .env.local
+cp env.dist .env
 
-configure your database config in .env.local
+docker-compose up -d
 
-php bin/console doctrine:schema:update --force
+docker-compose exec phpfpm /app/bin/console doctrine:schema:create
+
+add app.loc domain to your hosts file
+
+access http://app.loc:8080 from your browser
+
 ```
 
 ## :rocket: Usage
 
 ```sh
-symfony server:start
-
-Access the app page via browser (http://127.0.0.1:8000)
+access http://app.loc:8080 from your browser
 ```
 
 ## :white_check_mark: Run tests
